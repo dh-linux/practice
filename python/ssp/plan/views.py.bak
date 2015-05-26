@@ -1,0 +1,87 @@
+#!coding:utf-8
+from django.http import HttpResponse
+from django.template import RequestContext
+from django.template import loader
+from django.shortcuts import redirect, render, render_to_response
+from django.core.paginator import Paginator
+from django.conf import settings
+from resource.models import Domain
+from plan.models import Vip
+from ssp.utils import tools
+from django.utils import simplejson
+
+def get_domain():
+   dname_list = []
+   dname_dict = Domain.objects.values("dname").distinct()
+   for dname in dname_dict:
+       dname_list.append(dname.get("dname"))
+   return dname_list
+
+def get_data(dname):
+    data = []
+    url = "http://rdop.matrix.sina.com.cn/dns/index.php/Interface/domain?dname=%s" % dname
+    for i in simplejson.loads(tools.opreq(url)):
+        if i.get("type") == "A"  and i.get("data") not in data:
+            data.append(i.get("data"))
+    return data 
+
+def get_vip_jifang(vip):
+    v = Vip.objects.filter(vip=vip).values()
+    if v:
+        jf = v[0]['m_room']
+    else:
+        url = "http://duomo.intra.sina.com.cn/?r=duomoRest/api"
+        vpp = vip + ":80"
+        post_dic = '{"action":"getByVip","vip":"%s"}' % vpp
+        rs = simplejson.loads(tools.opreq_post(url, post_dic))
+        jf = rs['datas'][0]['group'].split('.')[-1]
+        Vip.objects.create(vip=vip, m_room=jf)
+    return jf.lower()
+
+def index(request):
+    return render(request, 'plan/index.html')
+
+def route(request):
+    if request.method == "POST":
+        yuan_type=request.POST.get("yuan_type")
+        if yuan_type == "jf_plan":
+            return redirect("/plan/list/jifang/")
+        elif yuan_type == "domain_plan":
+            return redirect("/plan/list/domain/")
+    else:
+        return render(request, "error.html")
+
+#域名数据处理
+def list(request, style):
+    if request.method == "POST":
+        if style == "domain":
+            jifang = request.POST.get('jifang')
+            domain_vj = []
+            dname_list = get_domain()
+            for dname in dname_list:
+                vip_jf_dict = {}
+                vj = []
+                vips = get_data(dname)
+                for vip in vips:
+#                    vip_jf_dict[vip] = get_vip_jifang(vip)
+                    vip_jf = get_vip_jifang(vip)
+                    vj.append({'vip':vip,'jf':vip_jf})
+                if jifang in [i['jf'] for i in vj]:
+                    domain_vj.append({'dname':dname,'vj':vj,'jf':jifang})
+        return HttpResponse(simplejson.dumps(domain_vj, ensure_ascii=False))
+    else:
+        if style == "jifang":
+            jf_dname_vip = {'ft':[],'yhg':[],'bx':[],'shx':[],'qxg':[],'nfjd':[]}
+            dname_list = get_domain()
+            #获取机房对应域名，域名对应vip，vip对应机房的大字典
+            for dname in dname_list:
+                vip_jf_dict = {}
+                data = get_data(dname)
+                for vip in data:
+                     vip_jf_dict[vip] = get_vip_jifang(vip)
+                for jf in jf_dname_vip:
+                    if jf in vip_jf_dict.values():
+                        jf_dname_vip[jf].append({dname:vip_jf_dict})
+            return render(request, "plan/jifang_plan.html", {'jf_dname_vip':jf_dname_vip})
+        elif style == "domain":
+            return render(request, "plan/domain_plan.html")

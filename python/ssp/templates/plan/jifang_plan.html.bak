@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+{%extends 'base.html'%}
+{% block content_row %}
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="row header smaller lighter blue">
+            <span class="col-xs-12"> 机房预案</span><!-- /span -->
+        </h3>
+
+        <div class="accordion-style1 panel-group accordion-style2" id="accordion">
+          {% for jf,ddname in jf_dname_vip.iteritems %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#{{jf}}" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle collapsed">
+                            <i data-icon-show="icon-angle-right" data-icon-hide="icon-angle-down" class="bigger-110 icon-angle-right"></i>
+                            &nbsp;
+                        {% if jf = 'ft' %}
+                            丰台机房
+                        {% else %}
+                            {% if jf = 'yhg' %}
+                            雍和宫机房
+                            {% else %}
+                                {% if jf = 'bx' %}
+                                北显机房
+                                    {% else %}
+                                        {% if jf = 'shx' %}
+                                         沙溪机房
+                                        {% else %}
+                                             {% if jf = 'qxg' %}
+                                             七星岗机房
+                                             {% else %}
+                                                  {% if jf = 'nfjd' %}
+                                                  南方基地机房
+                                                  {% endif %}
+                                             {% endif %}
+                                        {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        </a>
+                    </h4>
+                </div>
+               <div id="{{jf}}" class="panel-collapse collapse" style="height: 0px;">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th class="left">
+                                        <label>
+                                            <input id="{{jf}}all" type="checkbox" class="ace">
+                                            <span class="lbl"></span>
+                                        </label>
+                                    </th>
+                                    <th>域名</th>
+                                    <th>指向</th>
+                                    <th>预案机房</th>
+                                </tr>
+                                {% for i in ddname %}
+                                  {% for dname,vj in i.iteritems %}
+                                <tr>
+                                  <td class="left">
+                                      <label>
+                                          <input name="{{jf}}domain[]" type="checkbox" class="ace">
+                                          <span class="lbl"></span>
+                                      </label>
+                                  </td>
+                                      <td>
+                                          <a href="#">{{dname}}</a>
+                                      </td>
+                                      <td>
+                                      {% for vip,djf in vj.iteritems %}
+                                        {% if djf = jf %}
+                                          <div>{{vip}}</div>
+                                        {% endif %}
+                                      {% endfor %}
+                                      </td>
+                                      <td>
+                                      {% for vip,djf in vj.iteritems %}
+                                        {% if djf = jf %}
+                                        {% else %}
+                                            <div class="checkbox">
+                                            	<label>
+                                            		<input type="checkbox" class="ace" name="form-field-checkbox">
+                                            		<span class="lbl">{{vip}}({{djf}})</span>
+                                            	</label>
+                                            </div>
+                                        {% endif %}
+                                      {% endfor %}  
+                                      </td>
+                                </tr>
+                                  {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+          {% endfor %}
+
+        </div>
+  </div>
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+        $(function() {
+            $("#ftall").click(function() {
+                var f = $(this).prop('checked');
+                $("input[name='ftdomain[]']").each(function(){
+                    $(this).prop("checked", f); 
+                    });
+            });
+            var $subBox = $("input[name='ftdomain[]']");
+            $subBox.click(function(){
+                $("#ftall").attr("checked",$subBox.length == $("input[name='ftdomain[]']:checked").length ? true : false);
+            });
+        });
+</script>
+{% endblock %}

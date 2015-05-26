@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+<!--
+	Prologue 1.0 by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title> my blog template </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600" rel="stylesheet" type="text/css" />
+		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+		<script src="/static/js/jquery.min.js"></script>
+		<script src="/static/js/skel.min.js"></script>
+		<script src="/static/js/skel-panels.min.js"></script>
+		<script src="/static/js/init.js"></script>
+		<link rel="stylesheet" href="/static/css/skel-noscript.css" />
+		<link rel="stylesheet" href="/static/css/style.css" />
+		<link rel="stylesheet" href="/static/css/style-wide.css" />
+
+		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Header -->
+			<div id="header" class="skel-panels-fixed">
+
+				<div class="top">
+
+					<!-- Logo -->
+						<div id="logo">
+							<span class="image avatar48"><a href="/index.html"><img src="/static/images/head.jpg" alt="" /></a></span>
+							<h1 id="title"><a href="/index.html">MR_qiaoke</a></h1>
+							<span class="byline"> 潜水方能长寿！</span>
+						</div>
+						
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<!--li><a href="#top" id="top-link" class="skel-panels-ignoreHref"><span class="icon icon-home">主页</span></a></li-->
+								<li><a href="#linux" id="portfolio-link" class="skel-panels-ignoreHref"><span class="icon icon-th">linux</span></a></li>
+								<li><a href="#python" id="portfolio-link" class="skel-panels-ignoreHref"><span class="icon icon-th">python</span></a></li>
+								<li><a href="#about" id="about-link" class="skel-panels-ignoreHref"><span class="icon icon-user">About Me</span></a></li>
+								<li><a href="#contact" id="contact-link" class="skel-panels-ignoreHref"><span class="icon icon-envelope">Contact</span></a></li>
+							</ul>
+						</nav>
+						
+				</div>
+				
+				<div class="bottom">
+
+					<!-- Social Icons -->
+						<ul class="icons">
+							<li><a href="#" class="icon icon-twitter"><span>Twitter</span></a></li>
+							<li><a href="#" class="icon icon-facebook"><span>Facebook</span></a></li>
+							<li><a href="#" class="icon icon-github"><span>Github</span></a></li>
+							<li><a href="#" class="icon icon-dribbble"><span>Dribbble</span></a></li>
+							<li><a href="#" class="icon icon-envelope"><span>Email</span></a></li>
+						</ul>
+				
+				</div>
+			
+			</div>
+            <div class="copyrights">Collect from <a href="http://www.cssmoban.com/" >网页模板</a></div>
+
+		<!-- Main -->
+			<div id="main">
+			
+				<!-- Intro -->
+					<section id="top" class="one">
+						<div class="container">
+
+						{% block top %}
+
+						<img src="/static/images/pic01.jpg" alt="" />
+
+							<header>
+
+								<h2 class=""> 我的个人博客，调试Ing.</h2>
+							</header>
+							
+							<p> 我的个人博客，调试Ing.</p>
+
+							<footer>
+								<a href="#linux" class="button scrolly">开始浏览</a>
+							</footer>
+
+						{% endblock %}
+
+						</div>
+					</section>
+					
+				<!-- Portfolio -->
+					<section id="linux" class="two">
+						<div class="container" align=left>			
+							{% block page-content %}
+
+								{% for blog in linux_blog %}
+									<a href="/detail/{{blog.id}}/">{{ blog.title }} </a><br>
+									{{ blog.summary }} <hr>
+								{% endfor %}
+
+						</div>
+					</section>
+
+					<section id="python" class="two">
+						<div class="container" align=left>			
+
+								{% for blog in python_blog %}
+									<a href="/detail/{{blog.id}}/">{{ blog.title }} </a><br>
+									{{ blog.summary }} <hr>
+								{% endfor %}
+							{% endblock %}
+
+						</div>
+					</section>
+
+				<!-- About Me -->
+					<section id="about" class="three">
+						<div class="container">
+
+							<header>
+								<h2>About Me</h2>
+							</header>
+
+							<a href="http://ineedchemicalx.deviantart.com/art/Pasadena-357650036" class="image featured"><img src="/static/images/pic08.jpg" alt="" /></a>
+							
+							<p>Tincidunt eu elit diam magnis pretium accumsan etiam id urna. Ridiculus 
+							ultricies curae quis et rhoncus velit. Lobortis elementum aliquet nec vitae 
+							laoreet eget cubilia quam non etiam odio tincidunt montes. Elementum sem 
+							parturient nulla quam placerat viverra mauris non cum elit tempus ullamcorper 
+							dolor. Libero rutrum ut lacinia donec curae mus vel quisque sociis nec 
+							ornare iaculis.</p>
+
+						</div>
+					</section>
+			
+				<!-- Contact -->
+					<section id="contact" class="four">
+						<div class="container">
+
+							<header>
+								<h2>Contact</h2>
+							</header>
+
+							<p>Elementum sem parturient nulla quam placerat viverra 
+							mauris non cum elit tempus ullamcorper dolor. Libero rutrum ut lacinia 
+							donec curae mus. Eleifend id porttitor ac ultricies lobortis sem nunc 
+							orci ridiculus faucibus a consectetur. Porttitor curae mauris urna mi dolor.</p>
+							
+							<form method="post" action="#">
+								<div class="row half">
+									<div class="6u"><input type="text" class="text" name="name" placeholder="Name" /></div>
+									<div class="6u"><input type="text" class="text" name="email" placeholder="Email" /></div>
+								</div>
+								<div class="row half">
+									<div class="12u">
+										<textarea name="message" placeholder="Message"></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<div class="12u">
+										<a href="#" class="button submit">Send Message</a>
+									</div>
+								</div>
+							</form>
+
+						</div>
+					</section>
+			
+			</div>
+
+		<!-- Footer -->
+			<div id="footer">
+				
+				<!-- Copyright -->
+					<div class="copyright">
+						<p>&copy; 2013 Jane Doe. All rights reserved.</p>
+						<ul class="menu">
+							<li>Design: <a href="#">HTML5 UP</a></li>
+							<li>Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></li>
+						</ul>
+					</div>
+				
+			</div>
+
+	</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<!-- 加入对静态文件路径的支持 -->
+	{% load static %}
+	
+	<title>手浪AOS系统</title>
+	<meta name="base_title" content="手浪AOS系统" />
+	<!-- The styles -->
+	<link id="bs-css" href="{% get_static_prefix %}charisma/css/bootstrap-cerulean.css" rel="stylesheet">
+	<style type="text/css">	 
+	  body {
+		padding-bottom: 40px;
+	  }
+	  .sidebar-nav {
+		padding: 9px 0;
+	  }
+	</style>
+	<link href="{% get_static_prefix %}charisma/css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="{% get_static_prefix %}charisma/css/charisma-app.css" rel="stylesheet">
+	<link href="{% get_static_prefix %}charisma/css/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+	<link href='{% get_static_prefix %}charisma/css/fullcalendar.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/fullcalendar.print.css' rel='stylesheet'  media='print'>
+	<link href='{% get_static_prefix %}charisma/css/chosen.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/uniform.default.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/colorbox.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/jquery.cleditor.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/jquery.noty.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/noty_theme_default.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/elfinder.min.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/elfinder.theme.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/jquery.iphone.toggle.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/opa-icons.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/uploadify.css' rel='stylesheet'>
+	
+	<!-- easy UI -->
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/easyui/default/easyui.css"/> 
+	<!-- 
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/easyui/icon.css"/> 
+	-->
+	<!-- our own code -->
+	<link href='{% get_static_prefix %}css/other.css' rel='stylesheet'>
+	
+
+	
+	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+
+	<!-- The fav icon -->
+	<link rel="shortcut icon" href="{% get_static_prefix %}charisma/img/favicon.ico">
+	
+</head>
+
+<body>
+		<!-- topbar starts -->
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="{% url 'common_index' %}"> <img alt="Charisma Logo" src="{% get_static_prefix %}charisma/img/logo20.png" /> <span>AOS</span></a>
+				
+				<!-- theme selector starts -->
+				<div class="btn-group pull-right theme-container"  style="display:none;">
+					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+						<i class="icon-tint"></i><span class="hidden-phone"> Change Theme / Skin</span>
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" id="themes">
+						<li><a data-value="classic" href="#"><i class="icon-blank"></i> Classic</a></li>
+						<li><a data-value="cerulean" href="#"><i class="icon-blank"></i> Cerulean</a></li>
+						<li><a data-value="cyborg" href="#"><i class="icon-blank"></i> Cyborg</a></li>
+						<li><a data-value="redy" href="#"><i class="icon-blank"></i> Redy</a></li>
+						<li><a data-value="journal" href="#"><i class="icon-blank"></i> Journal</a></li>
+						<li><a data-value="simplex" href="#"><i class="icon-blank"></i> Simplex</a></li>
+						<li><a data-value="slate" href="#"><i class="icon-blank"></i> Slate</a></li>
+						<li><a data-value="spacelab" href="#"><i class="icon-blank"></i> Spacelab</a></li>
+						<li><a data-value="united" href="#"><i class="icon-blank"></i> United</a></li>
+					</ul>
+				</div>
+				<!-- theme selector ends -->
+				
+				<!-- user dropdown starts -->
+				<div class="btn-group pull-right" >
+					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+						<i class="icon-user"></i><span class="hidden-phone">{{ user.username }}</span>
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<!--
+						<li><a href="#">Profile</a></li>
+						-->
+						<li><a href="#">{{ user.roles }}</a></li>
+						<li class="divider"></li>
+						<li><a href="{% url 'common_logout' %}">Logout</a></li>
+					</ul>
+				</div>
+				<!-- user dropdown ends -->
+				
+				<div class="top-nav nav-collapse">
+					<ul class="nav switch_tabs">
+						<!--
+						<li><a href="{% url 'common_index' %}"><span style="font-size:15px">系统管理&配置管理</span></a></li>
+						-->
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+	<!-- topbar ends -->
+		<div class="container-fluid">
+		<div class="row-fluid">
+				
+			<!-- left menu starts -->
+			<div class="span2 main-menu-span">
+				<div class="well nav-collapse sidebar-nav">
+					<ul class="nav nav-tabs nav-stacked main-menu">
+						
+						{% if "config_manage" in auth_set %}
+							<li class="nav-header hidden-tablet">业务管理</li>
+							<li><a class="ajax-link" href="{% url 'product_index' %}" onclick="return executeMenu(this,true);"><i class="icon-chevron-right"></i><span class="hidden-tablet"> 区域管理</span></a></li>		
+						{% endif %}
+						
+						{% if "system_manage" in auth_set %}
+							<li class="nav-header hidden-tablet">上线管理</li>
+							{% if "user_manage" in auth_set %}
+								<li><a class="ajax-link" href="{% url 'issue_index' %}" onclick="return executeMenu(this,true);"> <i class="icon-chevron-right"></i><span class="hidden-tablet"> 独立产品</span></a></li>
+							{% endif %}
+							{% if "role_manage" in auth_set %}
+								<li><a class="ajax-link" href="{% url 'role_index' %}" onclick="return executeMenu(this,true);"><i class="icon-chevron-right"></i><span class="hidden-tablet"> 浪首</span></a></li>
+							{% endif %}
+							{% if "authority_manage" in auth_set %}
+								<li><a class="ajax-link" href="{% url 'authority_index' %}" onclick="return executeMenu(this,true);"><i class="icon-chevron-right"></i><span class="hidden-tablet"> 浪首接口</span></a></li>
+							{% endif %}
+							<li><a class="ajax-link" href="{% url 'log_index' %}" onclick="return executeMenu(this,true);"><i class="icon-chevron-right"></i><span class="hidden-tablet"> 日志信息</span></a></li>
+						{% endif %}
+						
+					</ul>
+				</div><!--/.well -->
+			</div><!--/span-->
+			<!-- left menu ends -->
+			
+			<noscript>
+				<div class="alert alert-block span10">
+					<h4 class="alert-heading">Warning!</h4>
+					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
+				</div>
+			</noscript>
+			
+			<div id="content" class="span10">
+			<!-- content starts -->
+				欢迎使用手浪AOS系统       
+			<!-- content ends -->
+			</div><!--/#content.span10-->
+				</div><!--/fluid-row-->
+				
+		<hr>
+		<!-- 配置节点关联图表的面板 node_div -->
+		<div class="modal hide fade" id="node_div">
+			<div class="modal-header">
+				<button type="button" class="close node_cancel">×</button>
+				<h3>配置节点</h3>
+			</div>
+			<div class="modal-body">
+				<fieldset class="form-horizontal">
+					<div class="control-group">
+						<label class="control-label">节点名称<span style="color:#f00">*</span></label>
+						<div class="controls">
+							<input class="input-xlarge required" type="text" id="curr_node"/>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="node_confirm">确定</button>
+				<button type="button" class="btn node_cancel">取消</button>
+			</div>
+		</div>
+		<!-- 从LDAP中选择员工 -->
+		<div class="modal hide fade" id="staff_div" style="width:350px">
+			<div class="modal-header">
+				<button type="button" class="close staff_cancel">×</button>
+				<h3>从LDAP中选择员工</h3>
+			</div>
+			<div class="modal-body">
+				<fieldset class="form-horizontal">
+					<div class="control-group">
+						<input type="text" class="input-large" id="keyword"/>&nbsp;&nbsp;<button id="search_btn" class="btn btn-small btn-primary">搜索</button>
+					</div>
+					<div id="result_div"></div>
+				</fieldset>
+			</div>
+		</div>
+		<!-- 从CMDB中选择服务器填充资源池 -->
+		<div class="modal hide fade" id="resourcepool_div" style="width:350px">
+			<div class="modal-header">
+				<button type="button" class="close resourcepool_cancel">×</button>
+				<h3>从CMDB中选择服务器</h3>
+			</div>
+			<div class="modal-body">
+				<fieldset class="form-horizontal">
+					<div class="control-group">
+						<input type="text" class="input-large" id="resourcepool_keyword"/>&nbsp;&nbsp;<button id="resourcepool_search_btn" class="btn btn-small btn-primary">搜索</button>
+					</div>
+					<div id="resourcepool_result_div"></div>
+				</fieldset>
+			</div>
+		</div>
+		<footer>
+			<p class="pull-left">&copy; 2015 SINA</p>
+			<p class="pull-right">Powered by: 手浪运维MOP团队</p>
+			
+			<!-- 记录当前正在被操作的节点 -->
+			<input type="hidden" id="hide_id" value=""/>
+			<!-- 当前对树节点执行的动作 -->
+			<input type="hidden" id="hide_action" value=""/>
+			
+			<!-- 历史URL -->
+			<input type="hidden" id="hide_history_url" value=""/>
+			
+			<!--　右键菜单 -->
+			<div id="mm"  class="easyui-menu" style="width:120px;display:none;"  >  
+				<div id="add" data-options="iconCls:'icon-plus'">创建子节点</div>
+				<div id="update" data-options="iconCls:'icon-edit'">编辑</div>
+				<div id="remove" data-options="iconCls:'icon-remove'">删除</div>
+				<div class="menu-sep"></div>
+				<div >退出</div>  
+			</div＞
+			
+		</footer>
+		
+	</div><!--/.fluid-container-->
+
+	<!-- external javascript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+
+	<!-- jQuery -->
+	<script src="{% get_static_prefix %}charisma/js/jquery-1.7.2.min.js"></script>
+	<!-- jQuery UI -->
+	<script src="{% get_static_prefix %}charisma/js/jquery-ui-1.8.21.custom.min.js"></script>
+	<!-- transition / effect library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-transition.js"></script>
+	<!-- alert enhancer library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-alert.js"></script>
+	<!-- modal / dialog library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-modal.js"></script>
+	<!-- custom dropdown library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-dropdown.js"></script>
+	<!-- scrolspy library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-scrollspy.js"></script>
+	<!-- library for creating tabs -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-tab.js"></script>
+	<!-- library for advanced tooltip -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-tooltip.js"></script>
+	<!-- popover effect library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-popover.js"></script>
+	<!-- button enhancer library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-button.js"></script>
+	<!-- accordion library (optional, not used in demo) -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-collapse.js"></script>
+	<!-- carousel slideshow library (optional, not used in demo) -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-carousel.js"></script>
+	<!-- autocomplete library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-typeahead.js"></script>
+	<!-- tour library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-tour.js"></script>
+	<!-- library for cookie management -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.cookie.js"></script>
+	<!-- calander plugin -->
+	<script src='{% get_static_prefix %}charisma/js/fullcalendar.min.js'></script>
+	<!-- data table plugin -->
+	<script src='{% get_static_prefix %}charisma/js/jquery.dataTables.js'></script>
+
+	<!-- chart libraries start -->
+	<script src="{% get_static_prefix %}charisma/js/excanvas.js"></script>
+	<script src="{% get_static_prefix %}charisma/js/jquery.flot.min.js"></script>
+	<script src="{% get_static_prefix %}charisma/js/jquery.flot.pie.min.js"></script>
+	<script src="{% get_static_prefix %}charisma/js/jquery.flot.stack.js"></script>
+	<script src="{% get_static_prefix %}charisma/js/jquery.flot.resize.min.js"></script>
+	<!-- chart libraries end -->
+
+	<!-- select or dropdown enhancer -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.chosen.min.js"></script>
+	<!-- checkbox, radio, and file input styler -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.uniform.min.js"></script>
+	<!-- plugin for gallery image view -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.colorbox.min.js"></script>
+	<!-- rich text editor library -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.cleditor.min.js"></script>
+	<!-- notification plugin -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.noty.js"></script>
+	<!-- file manager library -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.elfinder.min.js"></script>
+	<!-- star rating plugin -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.raty.min.js"></script>
+	<!-- for iOS style toggle switch -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.iphone.toggle.js"></script>
+	<!-- autogrowing textarea plugin -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.autogrow-textarea.js"></script>
+	<!-- multiple file upload plugin -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.uploadify-3.1.min.js"></script>
+	<!-- history.js for cross-browser state change on ajax -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.history.js"></script>
+	<!-- application script for Charisma demo -->
+	<script src="{% get_static_prefix %}charisma/js/charisma.js"></script>
+	
+	
+	<!-- easyui -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/easyui/jquery.parser.js"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}js/easyui/jquery.draggable.js"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}js/easyui/jquery.tree.js"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}js/easyui/jquery.menu.js"></script>
+
+	<!-- jquery 校验插件 -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/jquery.validate.js"></script>
+	
+	<!-- hashchange 事件 -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/hashchange/jquery.ba-hashchange.min.js"></script>
+	
+	
+	<!-- our own code -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/tools/csrf.js" charset="utf-8"></script>   <!-- csrf token-->
+	<!-- 通用的 ajax 操作 -->
+	<script src="{% get_static_prefix %}js/common_ajax.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}js/tools/validateExtend.js" charset="utf-8"></script> <!-- 扩展jquery validate-->
+	<script type="text/javascript" src="{% get_static_prefix %}js/tools/tree_extend.js" charset="utf-8"></script>   <!-- 扩展easyui tree-->
+	<script type="text/javascript" src="{% get_static_prefix %}js/op_tree.js" charset="utf-8"></script> <!-- 对问题类目树中节点进行操作 -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/add_staff.js" charset="utf-8"></script> <!-- 从LDAP 中添加成员 -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/add_resourcepool.js" charset="utf-8"></script> <!-- 从CMDB 中获取服务器资源 -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/tools/str_date.js" charset="utf-8"></script> <!-- 时间，字符串处理函数 -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/deal_order.js" charset="utf-8"></script> <!-- 工单处理函数 -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/tools/utility.js" charset="utf-8"></script> <!-- 工具类 -->
+	
+	<script language="JavaScript" type="text/javascript">
+		$(document).ready(function(){
+			if ( $.browser.msie ) { // if IE and version is greater 9
+			    if($.browser.version > 9)
+			    $('.modal').removeClass('fade');
+			}
+			
+			//禁止退格键 作用于Firefox、Opera 
+			document.onkeypress = banBackSpace;
+			//禁止退格键 作用于IE、Chrome
+			document.onkeydown = banBackSpace;
+			
+			 // 关闭员工搜索面板
+			 $("button.staff_cancel").click(close_staff_div); 
+			 // 触发搜索
+			 $("#search_btn").click(staff_search);
+			 
+			 // 锚点变更事件
+			 $(window).hashchange(hashChangeFire);
+			
+			 // 关闭从CMDB获取资源搜索面板
+			 $("button.resourcepool_cancel").click(close_resourcepool_div); 
+			 // 触发搜索
+			 $("#resourcepool_search_btn").click(resourcepool_search);
+		});
+		
+		//处理键盘事件 禁止后退键（Backspace）密码或单行、多行文本框除外 
+		function banBackSpace(e) {
+			//alert(event.keyCode)
+		    var ev = e || window.event; //获取event对象   
+		    var obj = ev.target || ev.srcElement; //获取事件源     
+		    var t = obj.type || obj.getAttribute('type'); //获取事件源类型     
+		    //获取作为判断条件的事件类型 
+		    var vReadOnly = obj.readOnly;
+		    var vDisabled = obj.disabled;
+		    //处理undefined值情况 
+		    vReadOnly = (vReadOnly == undefined) ? false : vReadOnly;
+		    vDisabled = (vDisabled == undefined) ? true : vDisabled;
+		    //当敲Backspace键时，事件源类型为密码或单行、多行文本的，  
+		    //并且readOnly属性为true或disabled属性为true的，则退格键失效  
+		    var flag1 = ev.keyCode == 8 && (t == "password" || t == "text" || t == "textarea") && (vReadOnly == true || vDisabled == true);
+		    //当敲Backspace键时，事件源类型非密码或单行、多行文本的，则退格键失效    
+		    var flag2 = ev.keyCode == 8 && t != "password" && t != "text" && t != "textarea";
+		    //当按回车键时把$.ajaxSettings.global值设为true
+		    //alert(ev.keyCode);
+		    if(ev.keyCode == 13) {
+		    	$.ajaxSettings.global = true;
+		    }
+		    //判断    
+		    if(flag2 || flag1) {
+				event.returnValue = false;//这里如果写 return false 无法实现效果 
+		    }
+		}
+		
+	</script>
+</body>
+</html>

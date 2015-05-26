@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+
+{% block top %}
+{% endblock%}
+
+{% block page-content %}
+{{ blog_obj.title }}
+<br>
+{{ blog_obj.content|safe|escape }}
+<br>
+创建于
+{{ blog_obj.created_at }} 
+
+{% endblock %}

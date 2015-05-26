@@ -1,0 +1,10 @@
+dongbei=Heilongjiang;Jilin;Liaoning
+xibei=Xinjiang;Qinghai;Gansu;Ningxia;Shaanxi
+huazhong=Henan;Hubei;Hunan
+huabei=Neimeng;Beijing;Hebei;Tianjin;Shanxi
+huanan=Guangdong;Guangxi;Hainan
+xinan=Xizang;Sichuan;Yunnan;Guizhou;Chongqing
+huadong=Shandong-chinaunicom;Jiangsu-chinaunicom;Anhui-chinaunicom;Zhejiang-chinaunicom;Shanghai-chinaunicom;Jiangxi-chinaunicom;Fujian-chinaunicom;Shanghai-cnc;Zhejiang-cnc
+
+north=Tianjin;Hebei;Shandong;Henan;Shanxi;Neimeng;Liaoning;Jilin;Heilongjiang;Shaanxi;Gansu;Ningxia;Qinghai;Xinjiang;noprovince;Beijing
+south=Jiangsu;Zhejiang;Anhui;Jiangxi;Fujian;Hubei;Hunan;Guangxi;Hainan;Chongqing;Sichuan;Guizhou;Yunnan;Xizang;Shanghai;Guangdong

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{%extends 'base.html'%}
+{% block content_row %}
+<div class="col-sm-10">
+    <div class="widget-box">
+        <div class="widget-header">
+			<h4 class="smaller">
+				选择
+				<small>预案切换类型</small>
+			</h4>
+	    </div>
+		<div class="widget-body">
+			<form method="POST" action="/plan/list/">
+    			<div class="widget-main">
+                    <select name="yuan_type">
+                        <option value="jf_plan" selected="selected">机房预案</option>
+                        <option value="domain_plan">域名预案</option>
+                        <option value="key_city_plan">重点城市view切换</option>
+                        <option value="city_plan">view切换</option>
+                      </select>
+    				<hr>
+    				<p>
+    				<button type='submit' class="btn btn-sm">下一步</button>
+    				</p>
+    			</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

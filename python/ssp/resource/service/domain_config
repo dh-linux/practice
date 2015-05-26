@@ -1,0 +1,12 @@
+dongbei=Heilongjiang;Jilin;Liaoning
+xibei=Xinjiang;Qinghai;Gansu;Ningxia;Shaanxi
+huazhong=Henan;Hubei;Hunan
+huabei=Neimeng;Beijing;Hebei;Tianjin;Shanxi
+huanan=Guangdong;Guangxi;Hainan
+xinan=Xizang;Sichuan;Yunnan;Guizhou;Chongqing
+huadong=Shandong;Jiangsu;Anhui;Zhejiang;Shanghai;Jiangxi;Fujian;Shanghai;Zhejiang
+
+north=Tianjin;Hebei;Shandong;Henan;Shanxi;Neimeng;Liaoning;Jilin;Heilongjiang;Shaanxi;Gansu;Ningxia;Qinghai;Xinjiang;Beijing
+south=Jiangsu;Zhejiang;Anhui;Jiangxi;Fujian;Hubei;Hunan;Guangxi;Hainan;Chongqing;Sichuan;Guizhou;Yunnan;Xizang;Shanghai;Guangdong
+
+all=Sichuan;Hebei;Xizang;Liaoning;Guangxi;Hubei;Shanxi;Beijing;Xinjiang;Shaanxi;Jilin;Jiangsu;Yunnan;Gansu;Guizhou;Hainan;Neimeng;Heilongjiang;Guangdong;Qinghai;Chongqing;Tianjin;Hunan;Shanghai;Anhui;Zhejiang;Ningxia;Henan;Shandong;Jiangxi;Fujian

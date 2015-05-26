@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+{%extends 'base.html'%}
+{% block content_row %}
+<div class="row">
+   <div class="col-sm-12">
+        <h3 class="row header smaller lighter blue">
+            <span class="col-xs-12"> 选择机房</span><!-- /span -->
+        </h3>
+   </div>
+    <div class="widget-body">
+        <div class="widget-main">
+        
+            <form class="form-search"  action="/plan/list/jifang/" role="form" method="POST">
+            	<div class="row">
+            	    <div class="col-xs-12 col-sm-8">
+            	    	<div class="input-group">
+
+                            <div class="widget-main col-sm-6">
+                              <select name="jifang" id="form-field-select-1" class="form-control">
+                                    <option value="">&nbsp;</option>
+                                    <option value="bx">北显机房</option>
+                                    <option value="ft">丰台机房</option>
+                                    <option value="yhg">雍和宫机房</option>
+                                    <option value="qxg">七星岗机房</option>
+                                    <option value="shx">沙溪机房</option>
+                                    <option value="nfjd">南方基地机房</option>
+                                    <option value="xd">西单机房</option>
+                                    <option value="yf">永丰机房</option>
+                              </select>
+                            </div>
+            	    	    
+            	    	    <span class="input-group-btn">
+            	    	        <button class="btn btn-purple btn-sm GET_jf_domain" type="button">
+            	    	        	Submit
+            	    	        </button>
+            	    	    </span>
+            	    	    
+            	    	</div>
+
+            	    </div>
+            	</div>
+            </form>
+            <form action="/plan/result/jifang/" method="POST">
+                        <div class="panel-collapse">
+                            <table id="table_data_info" class="table">
+                                <thead>
+                                </thead>
+
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="form-button">
+                        </div>
+            </form>
+        	
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+function makeTable(data){
+    var thead_html = '\
+        <tr>\
+            <th class="left">\
+                <label>\
+                    <input id="dnameAll" type="checkbox" class="cbox">\
+                    <span class="lbl"></span>\
+                </label>\
+            </th>\
+            <th>域名</th>\
+            <th>指向</th>\
+            <th>预案机房</th>\
+        </tr>\
+    ';
+    for (var i =0;i<data.length;i++){
+        var vj = data[i].vj;
+        vips = vvips = '';
+        for (var j=0;j<vj.length;j++){
+            if ( vj[j].jf != data[i].jf){
+                ddvip = '<div class="checkbox"><label><input type="checkbox" class="cbox" name=dvip_' + data[i].dname + ' ' + 'value=' + vj[j].vip + '>' + vj[j].vip +'(' + vj[j].jf + ')'  + '</label></div>';
+                vvips = vvips + ddvip;   
+            }
+            else{
+                //dvip = '<div>' + vj[j].vip +'(' + vj[j].jf + ')' + '</div>';
+                dvip = '<div class="checkbox"><label><input type="checkbox" class="cbox1" checked="checked" name=svip_' + data[i].dname + ' ' + 'value=' + vj[j].vip + '>' + vj[j].vip + '(' + vj[j].jf + ')' + '</label></div>';
+                vips = vips + dvip;
+            }
+        };
+        var tr = '<tr>'
+            + '<td class="left"><label><input name="dname" type="checkbox" value=' + data[i].dname + ' class="cbox"><span class="lbl"></span></label></td>'
+            + '<td><a href="#">' + data[i].dname + '</a></td>'
+            + '<td><div>' + vips + '</div></td>'
+            + '<td><div>' + vvips + '</div></td>'
+            + '</tr>';
+        var tbody_html = tbody_html + tr 
+    };
+
+    var form_button = '\
+        <div class="clearfix form-actions ">\
+            <div class="col-md-offset-5 col-md-9">\
+            	<button type="button" class="btn btn-info change_domain">\
+            		<i class="icon-ok bigger-110"></i>\
+            		提交\
+            	</button>		&nbsp; &nbsp; &nbsp;\
+            </div>\
+        </dvi>\
+    ';
+        $("#table_data_info thead").html(thead_html);
+        $("#table_data_info tbody").html(tbody_html);
+        $("#form-button").html(form_button)
+};
+
+$('.GET_jf_domain').click( function(){
+    var ddvip = $("")
+    var $form = $(this).parents("form");
+    $form.ajaxSubmit({
+        dataType:'json',
+        beforeSend:function() {
+            $.blockUI({  
+            css: {  
+                width: '300px',  
+                padding: '3px',  
+                backgroundColor: '#000',
+                opacity: .3,  
+                color: '#fff',
+                }
+            });
+        },
+        complete:function(data) {
+            $.unblockUI();
+        },
+        success:function(r){
+            makeTable(r);
+        },
+    });
+});
+
+$(function() {
+    $( "table" ).delegate( "#dnameAll", "click", function() {
+        var f = $(this).prop('checked');
+        $(".cbox").each(function(){
+            $(this).prop("checked", f); 
+        });
+        /*
+        $("input[name='vip']").each(function(){
+            $(this).prop("checked", f);
+        }); */
+    });
+
+    //*var $subBox = $("input[name='dname[]']");
+    $("table").delegate("#dname","click", function(){
+        $("#dnameAll").attr("checked", $("#dname").length == $("dname:checked").length ? true : false);
+        //$("#dnameAll").attr("checked",$subBox.length == $("input[name='dname[]']:checked").length ? true : false);
+    });
+/*
+    var $vipBox = $("input=[name='vip']");
+    $(vipBox).click(function(){
+        $("#dnameAll").attr("checked",$vipBox.length == $("input[name='vip']:checked").length ? true : false);
+    });
+*/
+});
+
+
+$("div#form-button").delegate(".change_domain", "click", function(){
+    var changeform = $(this).parents("form");
+    changeform.ajaxSubmit({
+        dataType:'json',
+        beforeSend:function() {
+            $.blockUI({  
+            css: {  
+                width: '300px',  
+                padding: '3px',  
+                backgroundColor: '#000',
+                opacity: .3,  
+                color: '#fff',
+                }
+            });
+        },
+        complete:function(data) {
+            $.unblockUI();
+        },
+        success:function(r){
+            alert(r.code);
+            window.location.href="/plan/task/"
+        },
+    });
+});
+
+</script>
+{% endblock %}

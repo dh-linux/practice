@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{%extends 'base.html'%}
+{%block content%}
+<div class="container">
+  <div class="row">
+
+    <div class="col-sm-2 sidebar-offcanvas" id="sidebar" role="navigation">
+      <div class="list-group">
+        <a href="/device/langshou/" class="list-group-item">langshou</a>
+        <a href="/device/dpool/" class="list-group-item active">dpool</a>
+        <a href="/device/wapcms/" class="list-group-item">wapcms</a>
+        <a href="/device/newwapcms/" class="list-group-item">newwapcms</a>
+        <a href="/device/scribed/" class="list-group-item">scribed</a>
+        <a href="/device/memcache/" class="list-group-item">memcache</a>
+        <a href="/device/image/" class="list-group-item">image</a>
+      </div>
+     </div>
+
+     <div class="col-sm-10">
+        <div class="box-content">
+          <table class="table table-striped">
+         	  <thead>
+         	    <tr>
+         	      <th>主机名</th>
+         	      <th>内网IP</th>
+         	      <th>外网IP</th>
+         	      <th>业务线</th>                                          
+         	      <th>用途</th>
+                  <th>CPU核数</th>
+                  <th>内存</th>
+                  <th>硬盘</th>
+                  <th>机房</th>
+                  <th>状态</th>                                          
+         	    </tr>
+         	  </thead>   
+         	  <tbody>
+                {% for device in devices %}
+         	    <tr>
+         	      <td class="center">{{device.hostname}}</td>
+                  <td class="center">{{device.i_ip}}</td>
+         	      <td class="center">{{device.o_ip}}</td>
+         	      <td class="center">{{device.app}}</td>
+         	      <td class="center">{{device.role}}</td>
+                  <td class="center">{{device.cpu_num}}</td>
+                  <td class="center">{{device.mem_size}}</td>
+                  <td class="center">{{device.disk_size}}</td>
+                  <td class="center">{{device.rack}}</td>
+         	      <td class="center">
+         	      	<span class="label label-success">Active</span>
+         	      </td>                                       
+         	    </tr>
+                {% endfor %}
+         	  </tbody>
+          </table>  
+        </div>
+     </div>
+
+  </div><!--/row-->
+</div><!--/contariner-->
+
+{%endblock%}
