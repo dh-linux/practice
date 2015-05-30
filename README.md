@@ -1,2 +1,2 @@
 # practice
-It's my practice.
+It's just practice.
