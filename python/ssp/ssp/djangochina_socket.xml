@@ -1,7 +1,0 @@
-<uwsgi>
-    <socket>:8077</socket>
-    <chdir>/data1/sinawap/ssp/</chdir>
-    <module>django_wsgi</module>
-    <processes>1</processes> 
-    <daemonize>/data1/sinawap/var/uwsgi/log/uwsgi.log</daemonize>
-</uwsgi>
