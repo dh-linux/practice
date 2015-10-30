@@ -46,7 +46,8 @@ def spider(url,day):
         url =  url_list[0] + str(url_num) + url_list[1]
 
 if __name__ == '__main__':
-    url = raw_input("请输入初始URL: ")
+    url = raw_input("请输入初始URL: eg: http://www.qingniantuzhai.com/9567.html
+                        : ")
     day = raw_input("请输入抓取的天数(由后往前): ")
     print "已经开始抓取，请稍等..."
     spider(url,day)
